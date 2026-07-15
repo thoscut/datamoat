@@ -176,7 +176,7 @@ export function titleForSession(session: Session): string | undefined {
   if (session.source === 'claude-app') {
     return claudeAppSessionTitle(session.originalPath) || cleanTitle(session.title)
   }
-  if (session.source === 'chatgpt-export') {
+  if (session.source === 'chatgpt-export' || session.source === 'claude-export') {
     return cleanTitle(session.title) || cleanTitle(session.cwd)
   }
   return cleanTitle(session.title)

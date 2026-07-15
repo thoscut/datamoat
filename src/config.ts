@@ -51,7 +51,7 @@ export const AUTH_FILE    = path.join(DATAMOAT_ROOT, 'auth.json')
 export const BOOTSTRAP_CAPTURE_DIR = path.join(DATAMOAT_ROOT, 'bootstrap-capture')
 
 export const WATCHED_SOURCES: readonly WatchedSource[] = ['claude-cli', 'codex-cli', 'claude-app', 'openclaw', 'cursor']
-export const ALL_SOURCES: readonly Source[] = [...WATCHED_SOURCES, 'chatgpt-export']
+export const ALL_SOURCES: readonly Source[] = [...WATCHED_SOURCES, 'chatgpt-export', 'claude-export']
 
 function discoverClaudeAppRoots(): string[] {
   if (process.platform !== 'win32') {

@@ -1,5 +1,5 @@
-export type Source = 'claude-cli' | 'codex-cli' | 'claude-app' | 'openclaw' | 'cursor' | 'chatgpt-export'
-export type WatchedSource = Exclude<Source, 'chatgpt-export'>
+export type Source = 'claude-cli' | 'codex-cli' | 'claude-app' | 'openclaw' | 'cursor' | 'chatgpt-export' | 'claude-export'
+export type WatchedSource = Exclude<Source, 'chatgpt-export' | 'claude-export'>
 
 export interface ConversationBranchSummary {
   id: string
