@@ -4194,7 +4194,7 @@
                   <div class="settings-label" id="release-notes-title">New in this version</div>
                   <div class="settings-value" id="release-notes-subtitle">What changed in the installed DataMoat version.</div>
                 </div>
-                <div class="release-notes-version" id="release-notes-version">v2.0.14</div>
+                <div class="release-notes-version" id="release-notes-version">v2.0.15</div>
               </div>
               <ul class="release-notes-list" id="release-notes-list"></ul>
             </div>
@@ -4548,15 +4548,13 @@ const SOURCE_LABELS = {
   'claude-export': 'claude export',
 }
 
-const CURRENT_RELEASE_NOTES_VERSION = '2.0.14'
+const CURRENT_RELEASE_NOTES_VERSION = '2.0.15'
 const CURRENT_RELEASE_NOTES = {
   en: [
-    "Refreshes the desktop UI with cleaner conversation layout, bundled JetBrains Mono styling, quieter metadata rows, and better light/dark theme consistency.",
-    "Adds chat export: save any conversation as a PDF or a self-contained HTML viewer, plus clean JSON, a Markdown context pack, and attachments.",
-    "Fixes packaged Windows copy-to-clipboard by using Electron's native clipboard bridge with browser fallback.",
-    "Fixes Windows manual update checks so DataMoat no longer opens an older release page or looks like it is offering a downgrade.",
-    "Hardens Windows no-screen/startup launchers so command windows do not stay open or kill tray/background capture when closed.",
-    "Fixes Windows transfer/restore setup edge cases: no overlay bounce on network drops, and Mac Touch ID refresh prompts stay hidden on Windows.",
+    "Adds Claude data-export import: bring the ZIP or extracted folder from claude.ai (Settings, Privacy, Export data) into the same encrypted vault, with thinking blocks, tool calls, and text attachments preserved.",
+    "Imports Claude design chats through the same pipeline, so those threads land next to your other sessions instead of being skipped.",
+    "Deduplicates re-imports, so pulling a fresh Claude export later only adds what is new instead of duplicating existing sessions.",
+    "Shares one archive reader between the ChatGPT and Claude importers, so both handle zips, extracted folders, and attachments the same way.",
   ],
 }
 
