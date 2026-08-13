@@ -2003,6 +2003,23 @@ function installDesktopIpc(): void {
     if (result.canceled || !result.filePaths[0]) return { canceled: true }
     return { canceled: false, path: result.filePaths[0] }
   })
+  ipcMain.handle('datamoat:claudeExport:selectSource', async () => {
+    const owner = usableWindow()
+    const options: OpenDialogOptions = {
+      title: 'Choose Claude export zip or folder',
+      buttonLabel: 'Choose Export',
+      properties: ['openFile', 'openDirectory'],
+      filters: [
+        { name: 'Claude export ZIP', extensions: ['zip'] },
+        { name: 'All Files', extensions: ['*'] },
+      ],
+    }
+    const result = owner
+      ? await dialog.showOpenDialog(owner, options)
+      : await dialog.showOpenDialog(options)
+    if (result.canceled || !result.filePaths[0]) return { canceled: true }
+    return { canceled: false, path: result.filePaths[0] }
+  })
 }
 
 type ExportPdfWorkerArgs = {

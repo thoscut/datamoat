@@ -132,6 +132,11 @@ import {
   readChatGptBranchMessages,
   runChatGptExportImport,
 } from '../chatgpt-export'
+import {
+  currentClaudeImportJob,
+  preflightClaudeExport,
+  runClaudeExportImport,
+} from '../claude-export'
 import { cleanupAllSourceArchivePending } from '../source-archive'
 import {
   readUiPreferences,
@@ -329,7 +334,7 @@ const SEARCH_MAX_RESULTS = 50
 const SEARCH_MAX_CONCURRENCY = 14
 const SEARCH_MEMORY_CACHE_LIMIT = 16
 const SEARCH_MEMORY_CACHE_TTL_MS = 10 * 60 * 1000
-const SEARCH_SOURCE_FILTERS: Source[] = ['claude-cli', 'codex-cli', 'claude-app', 'openclaw', 'cursor', 'chatgpt-export']
+const SEARCH_SOURCE_FILTERS: Source[] = ['claude-cli', 'codex-cli', 'claude-app', 'openclaw', 'cursor', 'chatgpt-export', 'claude-export']
 const BACKGROUND_CAPTURE_RETRY_THROTTLE_MS = 30000
 const SOURCE_ARCHIVE_PENDING_CLEANUP_DELAY_MS = 15000
 const CSRF_COOKIE = 'dm_csrf'
@@ -3120,6 +3125,32 @@ export async function startUIServer(): Promise<{ port: number; url: string }> {
     }
   })
 
+  app.post('/api/claude-export/import/preflight', requireAuth, async (req, res) => {
+    const sourcePath = String((req.body?.sourcePath || req.body?.path || '')).trim()
+    if (!sourcePath) return res.status(400).json({ error: 'Claude export zip or folder path required' })
+    try {
+      res.json(await preflightClaudeExport(sourcePath))
+    } catch (error) {
+      res.status(400).json({ error: error instanceof Error ? error.message : String(error) })
+    }
+  })
+
+  app.get('/api/claude-export/import/status', requireAuth, (_req, res) => {
+    res.json(currentClaudeImportJob() ?? { phase: 'idle', done: false })
+  })
+
+  app.post('/api/claude-export/import/start', requireAuth, async (req, res) => {
+    const sourcePath = String((req.body?.sourcePath || req.body?.path || '')).trim()
+    if (!sourcePath) return res.status(400).json({ error: 'Claude export zip or folder path required' })
+    try {
+      const job = await runClaudeExportImport(sourcePath)
+      res.json({ ok: job.phase === 'completed', job })
+    } catch (error) {
+      writeLog('error', 'claude-export-import', 'start_failed', { error })
+      res.status(400).json({ error: error instanceof Error ? error.message : String(error), job: currentClaudeImportJob() })
+    }
+  })
+
   app.get('/api/update/status', requireAuth, (_req, res) => {
     res.json(loadUpdateState())
   })
@@ -3370,6 +3401,7 @@ function fallbackDisplayModel(session: Session): string {
   if (session.source === 'codex-cli') return 'Codex'
   if (session.source === 'cursor') return 'Cursor'
   if (session.source === 'chatgpt-export') return 'ChatGPT'
+  if (session.source === 'claude-export') return 'Claude'
   if (session.source === 'openclaw') return 'OpenClaw'
   return session.source
 }

@@ -1085,6 +1085,8 @@ function isTransferTransientPath(relativePath: string): boolean {
     // restored backup must not inherit the source machine's "imported" banner.
     // (The dedup ledger chatgpt-export-imports.json is intentionally left alone.)
     || normalized === 'state/chatgpt-export-import-job.json'
+    // Same rationale for the Claude export import-job display state.
+    || normalized === 'state/claude-export-import-job.json'
     // UI preferences (language/theme/export format) follow the machine, not the
     // backup. A vault restored onto an English machine must re-detect the OS
     // language instead of inheriting the source machine's language choice.
@@ -1232,6 +1234,8 @@ function cleanMachineBoundTransferredState(root: string): void {
     'state/transfer-replace-journal.json',
     // Stale chatgpt-export import-progress display from a previous machine/vault.
     'state/chatgpt-export-import-job.json',
+    // Stale claude-export import-progress display from a previous machine/vault.
+    'state/claude-export-import-job.json',
     // Machine-local UI prefs (language/theme) — re-detect OS language on restore.
     'state/ui-preferences.json',
     'state/bootstrap-capture.json',

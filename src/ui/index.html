@@ -275,6 +275,9 @@
   .filter-btn[data-src="chatgpt-export"] {
     color: #19c6a7;
   }
+  .filter-btn[data-src="claude-export"] {
+    color: #d88965;
+  }
   .filter-btn:hover {
     background: var(--surface2);
     transform: none;
@@ -1060,6 +1063,7 @@
   .source-dot.openclaw    { background: var(--openclaw); }
   .source-dot.cursor      { background: var(--cursor); }
   .source-dot.chatgpt-export { background: var(--chatgpt); }
+  .source-dot.claude-export { background: var(--claude); }
 
   .session-model {
     font-family: var(--font-mono);
@@ -1524,6 +1528,7 @@
   .badge.openclaw    { color: var(--openclaw); border-color: rgba(162,138,187,0.24); background: rgba(162,138,187,0.09); }
   .badge.cursor      { color: var(--cursor); border-color: rgba(183,154,106,0.24); background: rgba(183,154,106,0.09); }
   .badge.chatgpt-export { color: var(--chatgpt); border-color: rgba(116,182,165,0.24); background: rgba(116,182,165,0.09); }
+  .badge.claude-export { color: var(--claude); border-color: rgba(192,140,102,0.24); background: rgba(192,140,102,0.09); }
   .conversation-shell.split-active .conv-header {
     position: relative;
     top: auto;
@@ -3456,6 +3461,7 @@
   .backup-path-dot.openclaw { background: var(--openclaw); }
   .backup-path-dot.cursor { background: var(--cursor); }
   .backup-path-dot.chatgpt-export { background: var(--chatgpt); }
+  .backup-path-dot.claude-export { background: var(--claude); }
   .backup-path-items {
     display: grid;
     gap: 8px;
@@ -3975,6 +3981,7 @@
     <button class="filter-btn" data-src="openclaw">openclaw</button>
     <button class="filter-btn" data-src="cursor">cursor</button>
     <button class="filter-btn" data-src="chatgpt-export" aria-label="chatgpt export"><span class="filter-label"><span>chatgpt</span><span>export</span></span></button>
+    <button class="filter-btn" data-src="claude-export" aria-label="claude export"><span class="filter-label"><span>claude</span><span>export</span></span></button>
   </div>
   <div class="stat" id="stat">loading…</div>
   <div class="header-actions">
@@ -4361,6 +4368,40 @@
                 <button id="chatgpt-import-start-btn" class="settings-btn primary" type="button">2. Import into Vault</button>
               </div>
             </div>
+            <div class="settings-card wide referenced-backup-card" id="claude-import-card">
+              <div class="referenced-backup-head">
+                <div>
+                  <div class="settings-label" id="claude-import-title">Import claude-export</div>
+                  <div class="settings-value" id="claude-import-state">waiting for export</div>
+                </div>
+                <div class="referenced-backup-badge off" id="claude-import-badge">waiting</div>
+              </div>
+              <div class="settings-message referenced-backup-copy" id="claude-import-message">Step 1 checks the Claude export without changing your vault. Step 2 imports conversations, design chats, and raw snapshots.</div>
+              <div class="source-field">
+                <label class="source-label">claude-export</label>
+                <div class="settings-actions">
+                  <button id="claude-import-select-btn" class="settings-btn primary" type="button">1. Choose &amp; Check Export</button>
+                  <button id="claude-import-check-btn" class="settings-btn" type="button" hidden>Check Again (No Import)</button>
+                </div>
+                <div class="source-help" id="claude-import-path-summary">No export selected yet. The picker accepts Claude export zip files and extracted export folders.</div>
+                <div class="source-row" id="claude-import-manual-row" hidden>
+                  <input id="claude-import-path" class="source-input" type="text" placeholder="/path/to/claude-export.zip or folder">
+                </div>
+                <div class="source-help" id="claude-import-manual-help" hidden>File picker is unavailable in this browser view, so paste the export path here.</div>
+              </div>
+              <div class="referenced-backup-progress" id="claude-import-progress" hidden>
+                <div class="referenced-progress-row">
+                  <span id="claude-import-progress-label">Checking export</span>
+                  <span id="claude-import-progress-count"></span>
+                </div>
+                <div class="referenced-progress-bar"><div class="referenced-progress-fill" id="claude-import-progress-fill"></div></div>
+              </div>
+              <div class="referenced-backup-permission" id="claude-import-warning" hidden></div>
+              <div class="referenced-attachment-stats" id="claude-import-stats"></div>
+              <div class="settings-actions">
+                <button id="claude-import-start-btn" class="settings-btn primary" type="button">2. Import into Vault</button>
+              </div>
+            </div>
           </section>
         </div>
       </div>
@@ -4439,6 +4480,10 @@ let chatGptImportData = null
 let chatGptImportBusy = false
 let chatGptImportPollTimer = null
 let chatGptImportPreflightTimer = null
+let claudeImportData = null
+let claudeImportBusy = false
+let claudeImportPollTimer = null
+let claudeImportPreflightTimer = null
 let releasesUrl = ''
 let settingsAppVersion = ''
 let noticeActionHandler = null
@@ -4500,6 +4545,7 @@ const SOURCE_LABELS = {
   'openclaw': 'OpenClaw',
   'cursor': 'Cursor',
   'chatgpt-export': 'chatgpt export',
+  'claude-export': 'claude export',
 }
 
 const CURRENT_RELEASE_NOTES_VERSION = '2.0.14'
@@ -4695,6 +4741,15 @@ const appText = {
     chatgptNoExportPaste: 'No export selected yet. Paste the chatgpt-export zip or extracted folder path below.',
     chatgptManualHelp: 'File picker is unavailable in this browser view, so paste the export path here.',
     chatgptSelected: 'Selected',
+    claudeDesignChats: 'design chats',
+    thoughts: 'thoughts',
+    toolUses: 'tool uses',
+    claudeChooseExport: 'Choose a Claude export zip or extracted folder.',
+    claudeImported: 'The Claude export has been imported into this vault. Conversations, design chats, and raw snapshots are now available.',
+    claudeChecked: 'Check complete. Nothing has been imported yet. Click Import into Vault to write this Claude export into DataMoat.',
+    claudeNoExportPicker: 'No export selected yet. Step 1 opens a picker and checks the Claude export before anything is imported.',
+    claudeNoExportPaste: 'No export selected yet. Paste the Claude export zip or extracted folder path below.',
+    claudeSelected: 'Selected',
     chooseDifferentExport: '1. Choose Different Export',
     checkSelectedExport: 'Check Selected Export',
     importComplete: 'Imported',
@@ -4830,6 +4885,15 @@ const appText = {
     chatgptNoExportPaste: '尚未选择 export。请在下面粘贴 chatgpt-export zip 或解压文件夹路径。',
     chatgptManualHelp: '这个浏览器视图无法使用文件选择器，请在这里粘贴 export 路径。',
     chatgptSelected: '已选择',
+    claudeDesignChats: '设计对话',
+    thoughts: '思考',
+    toolUses: '工具调用',
+    claudeChooseExport: '选择 Claude export zip 或解压后的文件夹。',
+    claudeImported: 'Claude export 已导入这个 vault。对话、设计对话和原始快照现在都可用。',
+    claudeChecked: '检查完成。现在还没有导入。点击导入到 Vault 才会写入 DataMoat。',
+    claudeNoExportPicker: '尚未选择 export。第 1 步会打开选择器，并在导入前检查 Claude export。',
+    claudeNoExportPaste: '尚未选择 export。请在下面粘贴 Claude export zip 或解压文件夹路径。',
+    claudeSelected: '已选择',
     chooseDifferentExport: '1. 选择其他 Export',
     checkSelectedExport: '检查已选 Export',
     importComplete: '已导入',
@@ -4965,6 +5029,15 @@ const appText = {
     chatgptNoExportPaste: 'まだ export が選択されていません。chatgpt-export zip または展開済みフォルダのパスを下に貼り付けてください。',
     chatgptManualHelp: 'このブラウザ表示ではファイル選択が使えないため、export パスをここに貼り付けてください。',
     chatgptSelected: '選択済み',
+    claudeDesignChats: 'デザインチャット',
+    thoughts: '思考',
+    toolUses: 'ツール使用',
+    claudeChooseExport: 'Claude export の zip または展開済みフォルダを選択してください。',
+    claudeImported: 'Claude export はこの vault にインポート済みです。会話、デザインチャット、raw スナップショットが利用できます。',
+    claudeChecked: '確認完了。まだインポートしていません。Vault にインポートを押すと DataMoat に書き込みます。',
+    claudeNoExportPicker: 'まだ export が選択されていません。手順 1 で選択画面を開き、インポート前に Claude export を確認します。',
+    claudeNoExportPaste: 'まだ export が選択されていません。Claude export zip または展開済みフォルダのパスを下に貼り付けてください。',
+    claudeSelected: '選択済み',
     chooseDifferentExport: '1. 別の Export を選択',
     checkSelectedExport: '選択した Export を確認',
     importComplete: 'インポート済み',
@@ -5135,6 +5208,9 @@ const appTextSettingsExtra = {
     chatgptPickerUnavailable: 'File picker is unavailable here. Paste the chatgpt-export zip or folder path.',
     chatgptPathRequired: 'chatgpt-export zip or folder path required',
     chatgptImportReview: 'chatgpt-export import finished with items that need review.',
+    claudePickerUnavailable: 'File picker is unavailable here. Paste the Claude export zip or folder path.',
+    claudePathRequired: 'Claude export zip or folder path required',
+    claudeImportReview: 'Claude export import finished with items that need review.',
   },
   'zh-CN': {
     manualUpdatePackagedReplace: '下载最新版本、替换这个 app，然后自动重新打开 DataMoat。之后可以加入签名来减少 Windows 警告。',
@@ -5263,6 +5339,9 @@ const appTextSettingsExtra = {
     chatgptPickerUnavailable: '这里无法使用文件选择器。请粘贴 chatgpt-export zip 或文件夹路径。',
     chatgptPathRequired: '需要 chatgpt-export zip 或文件夹路径',
     chatgptImportReview: 'chatgpt-export 导入完成，但有项目需要检查。',
+    claudePickerUnavailable: '这里无法使用文件选择器。请粘贴 Claude export zip 或文件夹路径。',
+    claudePathRequired: '需要 Claude export zip 或文件夹路径',
+    claudeImportReview: 'Claude export 导入完成，但有项目需要检查。',
   },
   ja: {
     manualUpdatePackagedReplace: '最新版をダウンロードし、この app を置き換えてから DataMoat を自動で再起動します。署名は後で追加して Windows 警告を減らせます。',
@@ -5391,6 +5470,9 @@ const appTextSettingsExtra = {
     chatgptPickerUnavailable: 'ここではファイル選択が使えません。chatgpt-export zip またはフォルダのパスを貼り付けてください。',
     chatgptPathRequired: 'chatgpt-export zip またはフォルダのパスが必要です',
     chatgptImportReview: 'chatgpt-export のインポートは完了しましたが、確認が必要な項目があります。',
+    claudePickerUnavailable: 'ここではファイル選択が使えません。Claude export zip またはフォルダのパスを貼り付けてください。',
+    claudePathRequired: 'Claude export zip またはフォルダのパスが必要です',
+    claudeImportReview: 'Claude export のインポートは完了しましたが、確認が必要な項目があります。',
   },
 }
 for (const [language, values] of Object.entries(appTextSettingsExtra)) {
@@ -11197,6 +11279,268 @@ async function startChatGptImport() {
   }
 }
 
+function currentClaudeImportJob() {
+  const data = claudeImportData
+  return data?.job || (data?.version ? data : null)
+}
+
+function claudeImportJobIsRunning(job = currentClaudeImportJob()) {
+  return !!job && !job.done && job.phase !== 'failed' && job.phase !== 'completed'
+}
+
+function claudeImportStatsHtml(counts = {}) {
+  if (!counts) return ''
+  const items = [
+    [appTr('conversations'), counts.conversations],
+    [appTr('claudeDesignChats'), counts.designChats],
+    [appTr('messages'), counts.messages],
+    [appTr('thoughts'), counts.thoughts],
+    [appTr('toolUses'), counts.toolUses],
+    [appTr('assets'), counts.attachments],
+  ]
+  return items.map(([label, value]) => `
+    <div class="referenced-attachment-stat"><strong>${fmtNumber(value || 0)}</strong><span>${esc(label)}</span></div>
+  `).join('')
+}
+
+function renderClaudeImportPanel() {
+  const stateEl = document.getElementById('claude-import-state')
+  const badgeEl = document.getElementById('claude-import-badge')
+  const messageEl = document.getElementById('claude-import-message')
+  const warningEl = document.getElementById('claude-import-warning')
+  const statsEl = document.getElementById('claude-import-stats')
+  const progressEl = document.getElementById('claude-import-progress')
+  const progressLabelEl = document.getElementById('claude-import-progress-label')
+  const progressCountEl = document.getElementById('claude-import-progress-count')
+  const progressFillEl = document.getElementById('claude-import-progress-fill')
+  const selectBtn = document.getElementById('claude-import-select-btn')
+  const checkBtn = document.getElementById('claude-import-check-btn')
+  const startBtn = document.getElementById('claude-import-start-btn')
+  const pathSummaryEl = document.getElementById('claude-import-path-summary')
+  const manualRowEl = document.getElementById('claude-import-manual-row')
+  const manualHelpEl = document.getElementById('claude-import-manual-help')
+  if (!stateEl || !badgeEl || !messageEl || !warningEl || !statsEl || !progressEl || !progressLabelEl || !progressCountEl || !progressFillEl || !selectBtn || !checkBtn || !startBtn || !pathSummaryEl || !manualRowEl || !manualHelpEl) return
+
+  const data = claudeImportData
+  const job = currentClaudeImportJob()
+  const status = job?.phase || data?.status || 'waiting for export'
+  const running = claudeImportBusy || claudeImportJobIsRunning(job)
+  const cardEl = document.getElementById('claude-import-card')
+  if (cardEl && job?.phase === 'completed') feelPulseElement(cardEl)
+  const selectedPath = claudeImportInputPath()
+  const hasPicker = !!window.datamoatDesktop?.claudeExport?.selectSource
+  const displayStatus = job?.phase === 'completed'
+    ? 'imported'
+    : data?.ok && !job
+      ? 'checked only'
+      : status
+  stateEl.textContent = appStatusText(displayStatus)
+  badgeEl.textContent = running ? appTr('working') : job?.phase === 'completed' ? appTr('imported') : data?.ok ? appTr('checked') : status === 'failed' ? appTr('failed') : appTr('waiting')
+  badgeEl.classList.toggle('off', !(data?.ok || job?.phase === 'completed') || status === 'failed')
+  messageEl.textContent = job?.phase === 'completed'
+    ? appTr('claudeImported')
+    : data?.ok
+      ? appTr('claudeChecked')
+      : data?.error || data?.errors?.join(' · ') || appTr('claudeChooseExport')
+  pathSummaryEl.textContent = selectedPath
+    ? `${appTr('claudeSelected')}: ${selectedPath}`
+    : hasPicker
+      ? appTr('claudeNoExportPicker')
+      : appTr('claudeNoExportPaste')
+  manualRowEl.hidden = hasPicker
+  manualHelpEl.hidden = hasPicker
+  selectBtn.hidden = !hasPicker
+
+  const warnings = job?.phase === 'completed'
+    ? []
+    : Array.isArray(job?.warnings) ? job.warnings : Array.isArray(data?.warnings) ? data.warnings : []
+  const jobError = job?.phase === 'failed' ? job?.lastError : ''
+  if (warnings.length > 0 || data?.error || jobError) {
+    warningEl.hidden = false
+    warningEl.textContent = data?.error || jobError || warnings.join(' · ')
+  } else {
+    warningEl.hidden = true
+    warningEl.textContent = ''
+  }
+
+  const counts = job?.counts || data?.counts
+  const imported = job?.imported
+  const updated = job?.updated
+  const skipped = job?.skipped
+  statsEl.innerHTML = job
+    ? [
+        `<div class="referenced-attachment-stat"><strong>${fmtNumber(imported?.sessions || 0)}</strong><span>${esc(appTr('newSessions'))}</span></div>`,
+        `<div class="referenced-attachment-stat"><strong>${fmtNumber(updated?.sessions || 0)}</strong><span>${esc(appTr('updated'))}</span></div>`,
+        `<div class="referenced-attachment-stat"><strong>${fmtNumber(skipped?.duplicates || 0)}</strong><span>${esc(appTr('duplicates'))}</span></div>`,
+        `<div class="referenced-attachment-stat"><strong>${fmtNumber(imported?.messages || 0)}</strong><span>${esc(appTr('messages'))}</span></div>`,
+      ].join('')
+    : claudeImportStatsHtml(counts)
+
+  if (running || job) {
+    const total = Number(job?.counts?.threads || 0)
+    const done = Number(job?.imported?.sessions || 0) + Number(job?.updated?.sessions || 0) + Number(job?.skipped?.sessions || 0) + Number(job?.failed?.sessions || 0)
+    const pct = total > 0
+      ? Math.max(12, Math.min(100, Math.round((done / total) * 100)))
+      : job?.phase === 'completed' ? 100 : 18
+    progressEl.hidden = false
+    progressLabelEl.textContent = appStatusText(job?.phase || 'checking export')
+    progressCountEl.textContent = total > 0 ? `${fmtNumber(done)} / ${fmtNumber(total)}` : (running ? appTr('working') : '')
+    progressFillEl.style.width = `${pct}%`
+  } else {
+    progressEl.hidden = true
+    progressFillEl.style.width = '0'
+    progressCountEl.textContent = ''
+  }
+
+  const ready = data?.ok || job?.phase === 'completed'
+  selectBtn.textContent = selectedPath ? appTr('chooseDifferentExport') : appTr('chooseCheckExport')
+  selectBtn.disabled = claudeImportBusy
+  checkBtn.hidden = !selectedPath && hasPicker
+  checkBtn.textContent = data?.ok ? appTr('checkAgain') : appTr('checkSelectedExport')
+  checkBtn.disabled = claudeImportBusy || !selectedPath
+  startBtn.textContent = job?.phase === 'completed' ? appTr('importComplete') : appTr('importVault')
+  startBtn.disabled = claudeImportBusy || !ready || job?.phase === 'completed'
+}
+
+async function loadClaudeImportPanel() {
+  claudeImportBusy = true
+  renderClaudeImportPanel()
+  try {
+    claudeImportData = await jsonOrThrow(await apiFetch('/api/claude-export/import/status'))
+    scheduleClaudeImportPollIfRunning()
+  } catch {
+    claudeImportData = null
+  } finally {
+    claudeImportBusy = false
+    renderClaudeImportPanel()
+  }
+}
+
+function scheduleClaudeImportPollIfRunning(delay = 900) {
+  if (claudeImportPollTimer) {
+    window.clearTimeout(claudeImportPollTimer)
+    claudeImportPollTimer = null
+  }
+  if (!settingsOpen) return
+  if (!claudeImportJobIsRunning()) return
+  claudeImportPollTimer = window.setTimeout(async () => {
+    claudeImportPollTimer = null
+    try {
+      claudeImportData = await jsonOrThrow(await apiFetch('/api/claude-export/import/status'))
+      renderClaudeImportPanel()
+    } catch {
+      // Keep last visible progress.
+    }
+    scheduleClaudeImportPollIfRunning()
+  }, delay)
+}
+
+function claudeImportInputPath() {
+  return document.getElementById('claude-import-path')?.value.trim() || ''
+}
+
+async function selectClaudeImportSource() {
+  const selector = window.datamoatDesktop?.claudeExport?.selectSource
+  if (!selector) {
+    claudeImportData = { error: appTr('claudePickerUnavailable') }
+    renderClaudeImportPanel()
+    return
+  }
+  claudeImportBusy = true
+  renderClaudeImportPanel()
+  try {
+    const selected = await selector()
+    if (!selected || selected.canceled || !selected.path) return
+    const input = document.getElementById('claude-import-path')
+    if (input) input.value = selected.path
+    await preflightClaudeImport()
+  } catch (error) {
+    claudeImportData = { error: error instanceof Error ? error.message : String(error) }
+  } finally {
+    claudeImportBusy = false
+    renderClaudeImportPanel()
+  }
+}
+
+async function preflightClaudeImport() {
+  const sourcePath = claudeImportInputPath()
+  if (!sourcePath) {
+    claudeImportData = { error: appTr('claudePathRequired') }
+    renderClaudeImportPanel()
+    return
+  }
+  claudeImportBusy = true
+  renderClaudeImportPanel()
+  try {
+    claudeImportData = await jsonOrThrow(await apiFetch('/api/claude-export/import/preflight', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sourcePath }),
+    }))
+  } catch (error) {
+    claudeImportData = { error: error instanceof Error ? error.message : String(error) }
+  } finally {
+    claudeImportBusy = false
+    renderClaudeImportPanel()
+  }
+}
+
+function scheduleClaudeImportPreflight() {
+  if (claudeImportPreflightTimer) {
+    window.clearTimeout(claudeImportPreflightTimer)
+    claudeImportPreflightTimer = null
+  }
+  const sourcePath = claudeImportInputPath()
+  if (!sourcePath) {
+    claudeImportData = null
+    renderClaudeImportPanel()
+    return
+  }
+  claudeImportData = { status: 'checking', warnings: [], counts: null }
+  renderClaudeImportPanel()
+  claudeImportPreflightTimer = window.setTimeout(() => {
+    claudeImportPreflightTimer = null
+    void preflightClaudeImport()
+  }, 450)
+}
+
+async function startClaudeImport() {
+  const sourcePath = claudeImportInputPath()
+  if (!sourcePath) {
+    claudeImportData = { error: appTr('claudePathRequired') }
+    renderClaudeImportPanel()
+    return
+  }
+  claudeImportBusy = true
+  claudeImportData = { job: { phase: 'reading-export', done: false, counts: {}, imported: {}, updated: {}, skipped: {}, failed: {}, warnings: [] } }
+  renderClaudeImportPanel()
+  scheduleClaudeImportPollIfRunning(500)
+  try {
+    claudeImportData = await jsonOrThrow(await apiFetch('/api/claude-export/import/start', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sourcePath }),
+    }))
+    scheduleClaudeImportPollIfRunning()
+    await loadSessions()
+    const completed = claudeImportData?.phase === 'completed' || claudeImportData?.job?.phase === 'completed'
+    const failedSessions = Number(claudeImportData?.failed?.sessions || claudeImportData?.job?.failed?.sessions || 0)
+    if (completed && failedSessions === 0) {
+      setSourceFilter('claude-export')
+      closeSettings()
+      markSourceReaction('claude-export')
+      feelPulseSelector('.session-item.search-result, .session-item[data-session-id]')
+    } else {
+      setUpdatePanelMessage(appTr('claudeImportReview'), true)
+    }
+  } catch (error) {
+    claudeImportData = { error: error instanceof Error ? error.message : String(error) }
+  } finally {
+    claudeImportBusy = false
+    renderClaudeImportPanel()
+  }
+}
+
 function sourceRootFromOriginalPath(source, originalPath) {
   if (!source || !originalPath) return null
   const normalized = String(originalPath).replace(/\\/g, '/')
@@ -11750,6 +12094,7 @@ function openSettings() {
   void loadReferencedAttachmentPanel()
   void loadTransferPanels()
   void loadChatGptImportPanel()
+  void loadClaudeImportPanel()
 }
 
 function openSettingsToChatGptExport() {
@@ -12133,6 +12478,17 @@ document.getElementById('chatgpt-import-path').addEventListener('keydown', event
   if (event.key === 'Enter') {
     event.preventDefault()
     void preflightChatGptImport()
+  }
+})
+document.getElementById('claude-import-select-btn').addEventListener('click', () => { void selectClaudeImportSource() })
+document.getElementById('claude-import-check-btn').addEventListener('click', () => { void preflightClaudeImport() })
+document.getElementById('claude-import-start-btn').addEventListener('click', () => { void startClaudeImport() })
+document.getElementById('claude-import-path').addEventListener('input', () => scheduleClaudeImportPreflight())
+document.getElementById('claude-import-path').addEventListener('change', () => { void preflightClaudeImport() })
+document.getElementById('claude-import-path').addEventListener('keydown', event => {
+  if (event.key === 'Enter') {
+    event.preventDefault()
+    void preflightClaudeImport()
   }
 })
 document.getElementById('reinstall-source-path').addEventListener('input', e => {

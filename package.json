@@ -40,6 +40,7 @@
     "smoke:codex-parser": "node scripts/codex-parser-smoke.js",
     "smoke:parser-reparse": "node scripts/parser-reparse-smoke.js",
     "smoke:chatgpt-import": "node scripts/chatgpt-import-smoke.js",
+    "smoke:claude-import": "node scripts/claude-import-smoke.js",
     "smoke:skills-permissions": "node scripts/skills-backup-permission-smoke.js",
     "smoke:referenced-attachments": "node scripts/referenced-attachments-smoke.js",
     "github:traffic": "node scripts/github-traffic-report.js",
