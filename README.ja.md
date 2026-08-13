@@ -17,6 +17,7 @@
 [![OpenClaw](https://img.shields.io/badge/OpenClaw-supported-9333EA?style=flat-square)](#supported-today)
 [![Cursor](https://img.shields.io/badge/Cursor-supported-D8B640?style=flat-square)](#supported-today)
 [![ChatGPT export](https://img.shields.io/badge/ChatGPT%20export-ZIP%2Ffolder%20import-10B981?style=flat-square)](#supported-today)
+[![Claude export](https://img.shields.io/badge/Claude%20export-ZIP%2Ffolder%20import-D97757?style=flat-square)](#supported-today)
 
 公式サイト: [https://datamoat.org](https://datamoat.org)
 GitHub リポジトリ: [https://github.com/max-ng/datamoat](https://github.com/max-ng/datamoat)
@@ -46,7 +47,7 @@ DataMoat は 2 つの層を保持します:
 - **Raw archive:** 元の session JSONL、SQLite records、logs、attachments、metadata、skills folder snapshots、そしてローカルに保存された thinking tokens または reasoning blocks は、できるだけソース形式に近い形で保存されます。
 - **Normalized index:** 異なるツールの records は共通 schema に変換され、ツールをまたいで分析、検索、review、export、再利用、handoff ができます。
 
-**現在対応しているソース:** ChatGPT export ZIP/フォルダーインポート、Claude CLI、Codex CLI、Codex app local sessions、macOS の Claude Desktop local-agent sessions、Claude Code GUI workflows がローカルに書き込む DeepSeek と Qwen sessions、対応するローカル OpenClaw session records、対応するローカル Cursor agent transcripts。
+**現在対応しているソース:** ChatGPT と Claude export ZIP/フォルダーインポート、Claude CLI、Codex CLI、Codex app local sessions、macOS の Claude Desktop local-agent sessions、Claude Code GUI workflows がローカルに書き込む DeepSeek と Qwen sessions、対応するローカル OpenClaw session records、対応するローカル Cursor agent transcripts。
 **さらに多くのデータソースとプラットフォームリリースは roadmap にあります:** この repository を star / watch すると、新しい capture integrations と platform updates のリリースを追えます。
 
 ## 2.0.9 新機能: アノテーション、ChatGPT Export メモリーインポート、より安全な転送

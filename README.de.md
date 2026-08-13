@@ -17,6 +17,7 @@ Sprache: [English](./README.md) | [Português (Brasil)](./README.pt-BR.md) | [�
 [![OpenClaw](https://img.shields.io/badge/OpenClaw-supported-9333EA?style=flat-square)](#supported-today)
 [![Cursor](https://img.shields.io/badge/Cursor-supported-D8B640?style=flat-square)](#supported-today)
 [![ChatGPT export](https://img.shields.io/badge/ChatGPT%20export-ZIP%2Ffolder%20import-10B981?style=flat-square)](#supported-today)
+[![Claude export](https://img.shields.io/badge/Claude%20export-ZIP%2Ffolder%20import-D97757?style=flat-square)](#supported-today)
 
 Offizielle Website: [https://datamoat.org](https://datamoat.org)
 GitHub-Repository: [https://github.com/max-ng/datamoat](https://github.com/max-ng/datamoat)
@@ -46,7 +47,7 @@ DataMoat hält zwei Ebenen:
 - **Raw archive:** ursprüngliche Session-JSONL, SQLite-Datensätze, Logs, Anhänge, Metadaten, Snapshots von Skills-Ordnern und lokal gespeicherte thinking tokens oder reasoning blocks werden so nah wie möglich am Quellformat bewahrt.
 - **Normalized index:** Datensätze aus verschiedenen Tools werden in ein gemeinsames Schema umgewandelt, sodass Sie toolübergreifend analysieren, durchsuchen, prüfen, exportieren, wiederverwenden und Arbeit übergeben können.
 
-**Heute unterstützte Quellen:** ChatGPT export ZIP/folder imports, Claude CLI, Codex CLI, lokale Sessions der Codex app, Claude Desktop local-agent sessions auf macOS, DeepSeek- und Qwen-Sessions, wenn sie von Claude Code GUI Workflows lokal geschrieben werden, unterstützte lokale OpenClaw session records und unterstützte lokale Cursor agent transcripts.
+**Heute unterstützte Quellen:** ChatGPT und Claude export ZIP/folder imports, Claude CLI, Codex CLI, lokale Sessions der Codex app, Claude Desktop local-agent sessions auf macOS, DeepSeek- und Qwen-Sessions, wenn sie von Claude Code GUI Workflows lokal geschrieben werden, unterstützte lokale OpenClaw session records und unterstützte lokale Cursor agent transcripts.
 **Weitere Datenquellen und Plattform-Releases stehen auf der Roadmap:** star und watch dieses Repository, um neue Capture-Integrationen und Plattform-Updates zu verfolgen, sobald sie erscheinen.
 
 ## Neu In 2.0.9: Annotationen, ChatGPT Export Import Und Sichererer Transfer

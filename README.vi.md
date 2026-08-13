@@ -17,6 +17,7 @@ Ngôn ngữ: [English](./README.md) | [Português (Brasil)](./README.pt-BR.md) |
 [![OpenClaw](https://img.shields.io/badge/OpenClaw-supported-9333EA?style=flat-square)](#supported-today)
 [![Cursor](https://img.shields.io/badge/Cursor-supported-D8B640?style=flat-square)](#supported-today)
 [![ChatGPT export](https://img.shields.io/badge/ChatGPT%20export-ZIP%2Ffolder%20import-10B981?style=flat-square)](#supported-today)
+[![Claude export](https://img.shields.io/badge/Claude%20export-ZIP%2Ffolder%20import-D97757?style=flat-square)](#supported-today)
 
 Website chính thức: [https://datamoat.org](https://datamoat.org)
 GitHub repo: [https://github.com/max-ng/datamoat](https://github.com/max-ng/datamoat)
@@ -46,7 +47,7 @@ DataMoat giữ hai lớp:
 - **Raw archive:** original session JSONL, SQLite records, logs, attachments, metadata, skills folder snapshots và mọi locally stored thinking tokens hoặc reasoning blocks được giữ gần với source format nhất có thể.
 - **Normalized index:** records từ các tools khác nhau được chuyển thành common schema để bạn có thể analyze, search, review, export, reuse và handoff work xuyên tools.
 
-**Sources được hỗ trợ hôm nay:** ChatGPT export ZIP/folder imports, Claude CLI, Codex CLI, Codex app local sessions, Claude Desktop local-agent sessions trên macOS, DeepSeek và Qwen sessions khi được Claude Code GUI workflows ghi local, supported local OpenClaw session records và supported local Cursor agent transcripts.
+**Sources được hỗ trợ hôm nay:** ChatGPT và Claude export ZIP/folder imports, Claude CLI, Codex CLI, Codex app local sessions, Claude Desktop local-agent sessions trên macOS, DeepSeek và Qwen sessions khi được Claude Code GUI workflows ghi local, supported local OpenClaw session records và supported local Cursor agent transcripts.
 **Nhiều data sources và platform releases khác nằm trên roadmap:** star và watch repository này để theo dõi capture integrations và platform updates mới khi chúng ship.
 
 ## 2.0.9 Mới: Chú thích, nhập ChatGPT Export và chuyển máy an toàn hơn

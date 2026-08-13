@@ -17,6 +17,7 @@
 [![OpenClaw](https://img.shields.io/badge/OpenClaw-supported-9333EA?style=flat-square)](#supported-today)
 [![Cursor](https://img.shields.io/badge/Cursor-supported-D8B640?style=flat-square)](#supported-today)
 [![ChatGPT export](https://img.shields.io/badge/ChatGPT%20export-ZIP%2Ffolder%20import-10B981?style=flat-square)](#supported-today)
+[![Claude export](https://img.shields.io/badge/Claude%20export-ZIP%2Ffolder%20import-D97757?style=flat-square)](#supported-today)
 
 Официальный сайт: [https://datamoat.org](https://datamoat.org)
 GitHub репозиторий: [https://github.com/max-ng/datamoat](https://github.com/max-ng/datamoat)
@@ -46,7 +47,7 @@ DataMoat хранит два слоя:
 - **Raw archive:** original session JSONL, SQLite records, logs, attachments, metadata, skills folder snapshots и любые locally stored thinking tokens или reasoning blocks сохраняются максимально близко к source format.
 - **Normalized index:** records из разных tools переводятся в common schema, чтобы можно было analyze, искать, review, export, reuse и handoff работу между tools.
 
-**Поддерживаемые сегодня sources:** ChatGPT export ZIP/folder imports, Claude CLI, Codex CLI, Codex app local sessions, Claude Desktop local-agent sessions на macOS, DeepSeek и Qwen sessions, когда они записываются local через Claude Code GUI workflows, поддерживаемые local OpenClaw session records и поддерживаемые local Cursor agent transcripts.
+**Поддерживаемые сегодня sources:** ChatGPT и Claude export ZIP/folder imports, Claude CLI, Codex CLI, Codex app local sessions, Claude Desktop local-agent sessions на macOS, DeepSeek и Qwen sessions, когда они записываются local через Claude Code GUI workflows, поддерживаемые local OpenClaw session records и поддерживаемые local Cursor agent transcripts.
 **Больше data sources и platform releases находятся в roadmap:** поставьте star и watch этому repository, чтобы следить за новыми capture integrations и platform updates.
 
 ## Что Нового В 2.0.9: Аннотации, Импорт ChatGPT Export И Более Безопасный Перенос

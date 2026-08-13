@@ -17,6 +17,7 @@ Dil: [English](./README.md) | [Português (Brasil)](./README.pt-BR.md) | [简体
 [![OpenClaw](https://img.shields.io/badge/OpenClaw-supported-9333EA?style=flat-square)](#supported-today)
 [![Cursor](https://img.shields.io/badge/Cursor-supported-D8B640?style=flat-square)](#supported-today)
 [![ChatGPT export](https://img.shields.io/badge/ChatGPT%20export-ZIP%2Ffolder%20import-10B981?style=flat-square)](#supported-today)
+[![Claude export](https://img.shields.io/badge/Claude%20export-ZIP%2Ffolder%20import-D97757?style=flat-square)](#supported-today)
 
 Resmi website: [https://datamoat.org](https://datamoat.org)
 GitHub deposu: [https://github.com/max-ng/datamoat](https://github.com/max-ng/datamoat)
@@ -46,7 +47,7 @@ DataMoat iki katman tutar:
 - **Raw archive:** original session JSONL, SQLite records, logs, attachments, metadata, skills folder snapshots ve locally stored thinking tokens veya reasoning blocks mümkün olduğunca source formatına yakın şekilde saklanır.
 - **Normalized index:** farklı tools kayıtları common schema'ya dönüştürülür; böylece tools arasında analyze, search, review, export, reuse ve handoff yapabilirsiniz.
 
-**Bugün desteklenen sources:** ChatGPT export ZIP/folder importları, Claude CLI, Codex CLI, Codex app local sessions, macOS'ta Claude Desktop local-agent sessions, Claude Code GUI workflows tarafından local yazıldığında DeepSeek ve Qwen sessions, desteklenen local OpenClaw session records ve desteklenen local Cursor agent transcripts.
+**Bugün desteklenen sources:** ChatGPT ve Claude export ZIP/folder importları, Claude CLI, Codex CLI, Codex app local sessions, macOS'ta Claude Desktop local-agent sessions, Claude Code GUI workflows tarafından local yazıldığında DeepSeek ve Qwen sessions, desteklenen local OpenClaw session records ve desteklenen local Cursor agent transcripts.
 **Daha fazla data source ve platform release roadmap'te:** yeni capture integrations ve platform updates çıktığında takip etmek için bu repository'yi star/watch edin.
 
 ## 2.0.9 Yenilikleri: Notlar, ChatGPT Export Import Ve Daha Güvenli Transfer

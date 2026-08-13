@@ -17,6 +17,7 @@ Idioma: [English](./README.md) | [Português (Brasil)](./README.pt-BR.md) | [简
 [![OpenClaw](https://img.shields.io/badge/OpenClaw-supported-9333EA?style=flat-square)](#supported-today)
 [![Cursor](https://img.shields.io/badge/Cursor-supported-D8B640?style=flat-square)](#supported-today)
 [![ChatGPT export](https://img.shields.io/badge/ChatGPT%20export-ZIP%2Ffolder%20import-10B981?style=flat-square)](#supported-today)
+[![Claude export](https://img.shields.io/badge/Claude%20export-ZIP%2Ffolder%20import-D97757?style=flat-square)](#supported-today)
 
 Site oficial: [https://datamoat.org](https://datamoat.org)
 Repositório GitHub: [https://github.com/max-ng/datamoat](https://github.com/max-ng/datamoat)
@@ -46,7 +47,7 @@ O DataMoat mantém duas camadas:
 - **Arquivo bruto:** JSONL de sessão original, registros SQLite, logs, anexos, metadados, snapshots de pastas de skills e qualquer thinking token ou bloco de raciocínio armazenado localmente são preservados o mais próximo possível do formato de origem.
 - **Índice normalizado:** registros de ferramentas diferentes são convertidos para um esquema comum, para que você possa analisar, buscar, revisar, exportar, reutilizar e entregar trabalho entre ferramentas.
 
-**Fontes compatíveis hoje:** importação ZIP/pasta de ChatGPT export, Claude CLI, Codex CLI, sessões locais do Codex app, sessões local-agent do Claude Desktop no macOS, sessões DeepSeek e Qwen quando escritas localmente por workflows do Claude Code GUI, registros locais compatíveis do OpenClaw e transcripts locais compatíveis do agente do Cursor.
+**Fontes compatíveis hoje:** importação ZIP/pasta de ChatGPT export e Claude export, Claude CLI, Codex CLI, sessões locais do Codex app, sessões local-agent do Claude Desktop no macOS, sessões DeepSeek e Qwen quando escritas localmente por workflows do Claude Code GUI, registros locais compatíveis do OpenClaw e transcripts locais compatíveis do agente do Cursor.
 **Mais fontes de dados e lançamentos de plataforma estão no roadmap:** dê star e watch neste repositório para acompanhar novas integrações de captura e atualizações de plataforma quando forem lançadas.
 
 ## Novidades No 2.0.9: Anotações, Importação Do ChatGPT Export E Transferência Mais Segura

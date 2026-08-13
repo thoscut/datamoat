@@ -17,6 +17,7 @@
 [![OpenClaw](https://img.shields.io/badge/OpenClaw-supported-9333EA?style=flat-square)](#supported-today)
 [![Cursor](https://img.shields.io/badge/Cursor-supported-D8B640?style=flat-square)](#supported-today)
 [![ChatGPT export](https://img.shields.io/badge/ChatGPT%20export-ZIP%2Ffolder%20import-10B981?style=flat-square)](#supported-today)
+[![Claude export](https://img.shields.io/badge/Claude%20export-ZIP%2Ffolder%20import-D97757?style=flat-square)](#supported-today)
 
 공식 웹사이트: [https://datamoat.org](https://datamoat.org)
 GitHub 저장소: [https://github.com/max-ng/datamoat](https://github.com/max-ng/datamoat)
@@ -46,7 +47,7 @@ DataMoat는 두 계층을 유지합니다:
 - **Raw archive:** original session JSONL, SQLite records, logs, attachments, metadata, skills folder snapshots, local에 저장된 thinking tokens 또는 reasoning blocks를 source format에 최대한 가깝게 보존합니다.
 - **Normalized index:** 서로 다른 tools의 records를 common schema로 변환해 tools 전반에서 analyze, search, review, export, reuse, handoff할 수 있게 합니다.
 
-**현재 지원되는 sources:** ChatGPT export ZIP/folder imports, Claude CLI, Codex CLI, Codex app local sessions, macOS의 Claude Desktop local-agent sessions, Claude Code GUI workflows가 local로 쓰는 DeepSeek 및 Qwen sessions, 지원되는 local OpenClaw session records, 지원되는 local Cursor agent transcripts.
+**현재 지원되는 sources:** ChatGPT 및 Claude export ZIP/folder imports, Claude CLI, Codex CLI, Codex app local sessions, macOS의 Claude Desktop local-agent sessions, Claude Code GUI workflows가 local로 쓰는 DeepSeek 및 Qwen sessions, 지원되는 local OpenClaw session records, 지원되는 local Cursor agent transcripts.
 **더 많은 data sources와 platform releases가 roadmap에 있습니다:** 이 repository를 star/watch해서 새 capture integrations와 platform updates를 따라오세요.
 
 ## 2.0.9 새로운 기능: 주석, ChatGPT Export 가져오기, 더 안전한 전송

@@ -17,6 +17,7 @@ Language: [English](./README.md) | [Português (Brasil)](./README.pt-BR.md) | [�
 [![OpenClaw](https://img.shields.io/badge/OpenClaw-supported-9333EA?style=flat-square)](#supported-today)
 [![Cursor](https://img.shields.io/badge/Cursor-supported-D8B640?style=flat-square)](#supported-today)
 [![ChatGPT export](https://img.shields.io/badge/ChatGPT%20export-ZIP%2Ffolder%20import-10B981?style=flat-square)](#supported-today)
+[![Claude export](https://img.shields.io/badge/Claude%20export-ZIP%2Ffolder%20import-D97757?style=flat-square)](#supported-today)
 
 Official website: [https://datamoat.org](https://datamoat.org)
 GitHub repo: [https://github.com/max-ng/datamoat](https://github.com/max-ng/datamoat)
@@ -54,7 +55,7 @@ DataMoat keeps two layers:
 - **Raw archive:** original session JSONL, SQLite records, logs, attachments, metadata, skills folder snapshots, and any locally stored thinking tokens or reasoning blocks are preserved as close to the source format as possible.
 - **Normalized index:** records from different tools are converted into a common schema so you can analyze, search, review, export, reuse, and hand off work across tools.
 
-**Supported sources today:** ChatGPT export ZIP/folder imports, Claude CLI, Codex CLI, Codex app local sessions, Claude Desktop local-agent sessions on macOS, supported local Cursor agent transcripts, DeepSeek and Qwen sessions when written locally by Claude Code GUI workflows, and supported local OpenClaw session records.
+**Supported sources today:** ChatGPT and Claude export ZIP/folder imports, Claude CLI, Codex CLI, Codex app local sessions, Claude Desktop local-agent sessions on macOS, supported local Cursor agent transcripts, DeepSeek and Qwen sessions when written locally by Claude Code GUI workflows, and supported local OpenClaw session records.
 **More data sources and platform releases are on the roadmap:** star and watch this repository so you can follow new capture integrations and platform updates as they ship.  
 
 ## Storage, Backup, And Reuse
@@ -135,6 +136,7 @@ Copy the DataMoat folder to another machine and restore across macOS, Windows, a
 | **OpenClaw** | ✅ | Supported local OpenClaw session transcripts and metadata |
 | **Cursor** | ✅ | Captures readable local Cursor `agent-transcripts` JSONL records, including text and tool blocks when present |
 | **ChatGPT export** | ✅ | Imports supported ChatGPT export ZIPs or extracted folders, including conversations, branches, assets, and raw export files |
+| **Claude export** | ✅ | Imports supported Claude data-export ZIPs or extracted folders, including conversations, design chats, thinking and tool blocks, and text attachments |
 | **Attachments** | ✅ | Encrypted image and supported file/PDF blocks, linked back to their source sessions |
 | **Skills folders** | ✅ | Global and project `SKILL.md` folder snapshots, including `SKILL.md` and included helper files, not just the skill name |
 

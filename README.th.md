@@ -17,6 +17,7 @@
 [![OpenClaw](https://img.shields.io/badge/OpenClaw-supported-9333EA?style=flat-square)](#supported-today)
 [![Cursor](https://img.shields.io/badge/Cursor-supported-D8B640?style=flat-square)](#supported-today)
 [![ChatGPT export](https://img.shields.io/badge/ChatGPT%20export-ZIP%2Ffolder%20import-10B981?style=flat-square)](#supported-today)
+[![Claude export](https://img.shields.io/badge/Claude%20export-ZIP%2Ffolder%20import-D97757?style=flat-square)](#supported-today)
 
 เว็บไซต์ทางการ: [https://datamoat.org](https://datamoat.org)
 GitHub repo: [https://github.com/max-ng/datamoat](https://github.com/max-ng/datamoat)
@@ -46,7 +47,7 @@ DataMoat เก็บสองชั้น:
 - **Raw archive:** original session JSONL, SQLite records, logs, attachments, metadata, skills folder snapshots และ locally stored thinking tokens หรือ reasoning blocks จะถูกเก็บให้ใกล้ source format ที่สุด
 - **Normalized index:** records จาก tools ต่าง ๆ จะถูกแปลงเป็น common schema เพื่อให้ analyze, search, review, export, reuse และ handoff งานข้าม tools ได้
 
-**Sources ที่รองรับวันนี้:** ChatGPT export ZIP/folder imports, Claude CLI, Codex CLI, Codex app local sessions, Claude Desktop local-agent sessions บน macOS, DeepSeek และ Qwen sessions เมื่อถูกเขียน local โดย Claude Code GUI workflows, supported local OpenClaw session records และ supported local Cursor agent transcripts
+**Sources ที่รองรับวันนี้:** ChatGPT และ Claude export ZIP/folder imports, Claude CLI, Codex CLI, Codex app local sessions, Claude Desktop local-agent sessions บน macOS, DeepSeek และ Qwen sessions เมื่อถูกเขียน local โดย Claude Code GUI workflows, supported local OpenClaw session records และ supported local Cursor agent transcripts
 **Data sources และ platform releases เพิ่มเติมอยู่ใน roadmap:** star และ watch repository นี้เพื่อติดตาม capture integrations และ platform updates ใหม่เมื่อ ship
 
 ## ใหม่ใน 2.0.9: annotations, ChatGPT Export import และ transfer ที่ปลอดภัยขึ้น
